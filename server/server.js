@@ -4,6 +4,7 @@ const app = express();
 const mongoose = require('mongoose');
 const cors = require('cors');
 const UserRouter=require("./Router/UserRouter");
+const CourseRouter=require("./Router/CourseRouter");
 
 app.use(cors())
 
@@ -14,7 +15,8 @@ app.get('/', (req, res) => {
   res.json({ message: 'ON HOME PAGE' })
 })
 
-app.use("/users",UserRouter)
+app.use("/users",UserRouter);
+app.use("/courses",CourseRouter);
 
 mongoose.connect(process.env.MONGO_URL).then(() => {
   app.listen(process.env.PORT, () => {
