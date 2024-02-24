@@ -1,7 +1,6 @@
 const validator = require('validator');
 const bcrypt = require('bcrypt')
-const {getUserModel}=require("../../Model/UserModel");
-const User=getUserModel();
+const User=require("../../Model/UserModel");
 
 async function SignUp (req,resp) {
   const {name,email,password,isStudent}=req.body;

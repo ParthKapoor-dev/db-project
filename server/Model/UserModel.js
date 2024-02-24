@@ -1,7 +1,5 @@
 const mongoose=require("mongoose");
 
-function getUserModel()
-{
     let user=new mongoose.Schema(
         {
             name:String,
@@ -14,7 +12,5 @@ function getUserModel()
         }
     )
     const UserModel=mongoose.model("UserCollection",user);
-    return UserModel;
-}
 
-module.exports={getUserModel};
+module.exports=UserModel;
