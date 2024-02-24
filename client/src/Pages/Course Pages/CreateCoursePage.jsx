@@ -36,19 +36,21 @@ export default function CreateCoursePage() {
         price: priceRef.current.value,
         starttime: startDateRef.current.value,
         endtime: endDateRef.current.value,
-        topics: topicsRef.current.value
+        topics: topicsRef.current.value,
+        coursevideo:videoFile
       }
     }
+    console.log(videoFile);
+    console.log(data);
 
     const formData= new FormData();
-    formData.append("data",data);
+    formData.append("data",JSON.stringify(data));
     formData.append("videoFile",videoFile);
     console.log(formData);
 
     const response = await fetch(serverUrl, {
       method: "POST",
       headers: {
-        'content-type': 'multipart/form-data',
         'Authorization': `Bearer ${token}`
       },
       body: formData
@@ -58,6 +60,7 @@ export default function CreateCoursePage() {
     if (response.ok) {
       console.log(json);
     } else {
+      throw new Error("network error");
       console.error(json);
     }
   }
