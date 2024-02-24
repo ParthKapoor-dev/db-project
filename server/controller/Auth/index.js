@@ -2,8 +2,7 @@ const validator = require('validator');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const { getUserModel } = require("../../Model/UserModel");
-const User = getUserModel();
+const User = require("../../Model/UserModel");
 
 function createToken(id) {
   return jwt.sign({ id }, process.env.SECRET, { expiresIn: '3d' })

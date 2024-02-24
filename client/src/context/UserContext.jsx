@@ -1,4 +1,4 @@
-import { createContext , useReducer , useEffect  } from "react";
+import { createContext, useReducer, useEffect } from "react";
 
 
 export const userContext = createContext();
@@ -8,11 +8,12 @@ export function handleReducerHook(prevState, action) {
   switch (action.type) {
     case "login": {
       console.log(`${action.payload.user.name} has logged In`);
-      localStorage.setItem('user' , JSON.stringify(action.payload))
+      localStorage.setItem('user', JSON.stringify(action.payload))
       return { ...action.payload }
     }
     case "logout": {
       console.log('User Logged Out');
+      localStorage.removeItem('user')
       return { user: null, token: null }
     }
   }
@@ -30,7 +31,7 @@ export function UserContextProvider({ children }) {
     const userData = JSON.parse(localStorage.getItem('user'));
 
     if (userData) {
-      dispatch({type : 'login' , payload : userData})
+      dispatch({ type: 'login', payload: userData })
     }
   }, []);
 

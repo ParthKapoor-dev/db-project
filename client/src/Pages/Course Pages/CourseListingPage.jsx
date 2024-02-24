@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CurrentMode } from "../../../currentMode"
 import useUserContext from "../../hooks/useUserContext";
 
@@ -6,9 +6,11 @@ export default function CourseListingPage() {
 
   const [courses, setCourses] = useState();
   const [loading, setLoading] = useState(true);
+  const { token } = useUserContext();
+
 
   useEffect(() => {
-    fetchRelatedCourses(setCourses , setLoading);
+    if (token) fetchRelatedCourses(token, setCourses, setLoading);
   })
 
 
@@ -18,8 +20,8 @@ export default function CourseListingPage() {
         Loading Please Wait;
       </div>
     );
-  
-  
+
+
   if (courses?.length == 0)
     return (
 
@@ -27,14 +29,14 @@ export default function CourseListingPage() {
         We have no Courses to sell , Please come sometime later
       </div>
     )
-  
-  
+
+
   return (
 
     <div className="">
       <div>
         {courses.map(item => (
-          <Course course={item}  />
+          <Course course={item} key={item._id} />
         ))}
       </div>
     </div>
@@ -42,8 +44,8 @@ export default function CourseListingPage() {
 };
 
 
-function Course({course}) {
-  
+function Course({ course }) {
+
   return (
     <div>
       this is a {course.name}
@@ -52,16 +54,17 @@ function Course({course}) {
 }
 
 
-async function fetchRelatedCourses(setCourses , setLoading) {
+async function fetchRelatedCourses(token, setCourses, setLoading) {
 
-  const { token } = useUserContext();
+  const serverUrl = CurrentMode.url + '/courses/list-course';
 
-  const serverUrl = CurrentMode.url + '/list-course';
-  const response = fetch(serverUrl, {
+  console.log(token);
+
+  const response = await fetch(serverUrl, {
     method: "GET",
-    header: {
+    headers: {
       'content-type': 'application/json',
-      'Autherization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`
     }
   });
   const json = await response.json();

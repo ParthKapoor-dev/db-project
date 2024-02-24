@@ -1,7 +1,7 @@
 import { useLocation } from "react-router"
 import useUserContext from "../../hooks/useUserContext";
 import { CurrentMode } from "../../../currentMode";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function DisplayCoursePage() {
 
@@ -15,7 +15,7 @@ export default function DisplayCoursePage() {
   useEffect(() => {
     if (token && courseId) fetchCourse(token, courseId, setCourse, setLoading)
   }, []);
-  
+
   if (loading) {
     return (
       <div>
@@ -32,7 +32,7 @@ export default function DisplayCoursePage() {
   )
 }
 
-async function fetchCourse( token , courseId , setCourse , setLoading) {
+async function fetchCourse(token, courseId, setCourse, setLoading) {
 
   const serverUrl = CurrentMode.url + '/display-course/' + courseId;
   const response = await fetch(serverUrl, {
