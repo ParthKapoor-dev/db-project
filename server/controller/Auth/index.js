@@ -35,6 +35,7 @@ async function SignUp(req, resp) {
   }
   catch (err) {
     console.log(err);
+    resp.status(404).json({message : err.message});
   }
 
 }
@@ -61,6 +62,7 @@ async function Login(req, resp) {
   }
   catch (err) {
     console.log(err);
+    resp.status(404).json({ message: err.message })
   }
 }
 module.exports = {

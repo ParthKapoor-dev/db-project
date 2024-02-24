@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import useUserContext from "../../hooks/useUserContext"
 
+import "./navbar.css"
+
 export default function Navbar() {
 
   const { user, dispatch } = useUserContext();
@@ -12,9 +14,9 @@ export default function Navbar() {
   return (
     <nav className="flex items-center justify-between px-10 py-4 border-b-[0.5px] border-b-slate-300" >
       <div className="">
-        <div className="cursor-pointer text-2xl">
+        <Link to="/explore/courses" className="cursor-pointer text-2xl">
           UpSkill
-        </div>
+        </Link>
       </div>
 
       <div className="flex gap-4">
@@ -22,7 +24,7 @@ export default function Navbar() {
         {user && (
           <>
             {!user?.isStudent ? (
-              <Link to="/course/add-new">
+              <Link to="/courses/add-new">
                 Upload Course
               </Link>
             ) : (
@@ -37,20 +39,20 @@ export default function Navbar() {
         )}
         {user?._id ? (
           <>
-            <div className="cursor-pointer px-2 py-2 border-2 border-slate-500">
+            <div className="cursor-pointer px-2 py-2 border-2">
               {user.name}
             </div>
 
-            <div className="cursor-pointer px-2 py-2 border-2 border-slate-500" onClick={handleLogout}>
+            <div className="cursor-pointer px-2 py-2 border-2 " onClick={handleLogout}>
               Logout
             </div>
           </>
         ) : (
           <>
-            <Link to="/user/login" className="cursor-pointer px-2 py-2 border-2 border-slate-700 text-slate-700 hover:bg-slate-200 duration-100">
+            <Link to="/user/login" className="cursor-pointer px-2 py-2 border-2 border-purple-600 text-purple-600 font-bold hover:bg-slate-200 duration-100">
               Log In
             </Link>
-            <Link to="/user/signup" className="cursor-pointer px-2 py-2 border-2 border-slate-700 bg-slate-700 text-white hover:bg-slate-500">
+            <Link to="/user/signup" className="cursor-pointer px-2 py-2 border-2 border-purple-600 bg-purple-600 font-bold text-white hover:bg-purple-800 hover:border-purple-800">
               SignUp
             </Link>
           </>
