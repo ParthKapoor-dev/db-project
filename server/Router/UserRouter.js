@@ -2,5 +2,7 @@ const express=require("express");
 const app=express.Router();
 const {SignUp,Login}=require("../controller/Auth/index");
 
-app.body("/signin",SignUp);
-app.body("/login",Login);
+app.post("/signin",SignUp);
+app.post("/login",Login);
+
+module.exports={app};

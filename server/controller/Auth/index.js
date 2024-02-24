@@ -1,5 +1,7 @@
 const validator = require('validator');
 const bcrypt = require('bcrypt')
+const {getUserModel}=require("../../Model/UserModel");
+const User=getUserModel();
 
 async function SignUp (req,resp) {
   const {name,email,password,isStudent}=req.body;
@@ -10,7 +12,7 @@ try
   if (!validator.isEmail(email))
     throw Error("Please enter a valid email");
 
-  const userExists = await this.findOne({ email });
+  const userExists = await User.findOne({ email });
   if (userExists) throw Error("User already exists , try loging In");
 
   if (!validator.isStrongPassword(password))
@@ -19,7 +21,7 @@ try
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(password, salt);
 
-  const user = await this.create({ name:name, email:email, password: hash, isStudent: isStudent });
+  const user = await User.create({ name:name, email:email, password: hash, isStudent: isStudent });
 
   resp.json(user);
 }
@@ -35,7 +37,7 @@ async function Login (req, resp) {
     if (!email || !password)
     throw Error("All fields are required");
 
-  const user = await this.findOne({ email })
+  const user = await User.findOne({ email })
   if (!user) throw Error("Incorrect Email for login");
 
   const compare = await bcrypt.compare(password, user.password);
