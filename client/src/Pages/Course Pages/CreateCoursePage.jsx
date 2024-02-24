@@ -58,10 +58,10 @@ export default function CreateCoursePage() {
 
 
   return (
-    <div>
-      Create Course Page;
+    <div className="flex flex-col items-center justify-center my-4 text-2xl font-bold ">
+      Create Course Page
 
-      <form onSubmit={handleSubmit} >
+      <form onSubmit={handleSubmit} className="flex flex-col text-lg font-normal mt-4" >
         <label htmlFor="name">Course Title</label>
         <input type="text" id="name" ref={nameRef} />
 
