@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const cors = require('cors');
-const UserRouter=require("./Router/UserRouter");
+const AuthRouter=require("./Router/AuthRouter");
 const CourseRouter=require("./Router/CourseRouter");
 
 app.use(cors())
@@ -15,7 +15,7 @@ app.get('/', (req, res) => {
   res.json({ message: 'ON HOME PAGE' })
 })
 
-app.use("/users",UserRouter);
+app.use("/auth",AuthRouter);
 app.use("/courses",CourseRouter);
 
 mongoose.connect(process.env.MONGO_URL).then(() => {
