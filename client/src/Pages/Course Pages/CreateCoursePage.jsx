@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { CurrentMode } from "../../../currentMode"
 import useUserContext from "../../hooks/useUserContext";
 
@@ -10,6 +10,7 @@ export default function CreateCoursePage() {
   const startDateRef = useRef();
   const endDateRef = useRef();
   const topicsRef = useRef();
+  const [videoFile,setVideoFile] = useState(null);
   const { token, user } = useUserContext();
   console.log(user, token);
 
@@ -39,13 +40,18 @@ export default function CreateCoursePage() {
       }
     }
 
+    const formData= new FormData();
+    formData.append("data",data);
+    formData.append("videoFile",videoFile);
+    console.log(formData);
+
     const response = await fetch(serverUrl, {
       method: "POST",
       headers: {
-        'content-type': 'application/json',
+        'content-type': 'multipart/form-data',
         'Authorization': `Bearer ${token}`
       },
-      body: JSON.stringify(data)
+      body: formData
     });
     const json = await response.json();
 
@@ -79,6 +85,9 @@ export default function CreateCoursePage() {
 
         <label htmlFor="topics">Topics</label>
         <input type="text" id="topics" ref={topicsRef} />
+
+        <label htmlFor="video">Video</label>
+        <input type="file" id="videoFile" name="videoFile" accept="video/*" onChange={(event)=>setVideoFile(event.target.files[0])}/>
 
         <button>Submit Course</button>
       </form>
