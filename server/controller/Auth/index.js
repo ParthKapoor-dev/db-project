@@ -1,58 +1,70 @@
 const validator = require('validator');
-const bcrypt = require('bcrypt')
-const User=require("../../Model/UserModel");
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
-async function SignUp (req,resp) {
-  const {name,email,password,isStudent}=req.body;
-try
-{
-  if (!email || !password)
-    throw Error('All fields are required');
-  if (!validator.isEmail(email))
-    throw Error("Please enter a valid email");
+const User = require("../../Model/UserModel");
 
-  const userExists = await User.findOne({ email });
-  if (userExists) throw Error("User already exists , try loging In");
-
-  if (!validator.isStrongPassword(password))
-    throw Error("Please enter a strong password");
-
-  const salt = await bcrypt.genSalt(10);
-  const hash = await bcrypt.hash(password, salt);
-
-  const user = await User.create({ name:name, email:email, password: hash, isStudent: isStudent });
-
-  resp.json(user);
+function createToken(id) {
+  return jwt.sign({ id }, process.env.SECRET, { expiresIn: '3d' })
 }
-catch(err){
-  console.log(err);
-}
-  
-}
-async function Login (req, resp) {
-  const {email,password}=req.body;
-  try
-  {
+
+async function SignUp(req, resp) {
+  const { name, email, password, isStudent } = req.body;
+  try {
     if (!email || !password)
-    throw Error("All fields are required");
+      throw Error('All fields are required');
+    if (!validator.isEmail(email))
+      throw Error("Please enter a valid email");
 
-  const user = await User.findOne({ email })
-  if (!user) throw Error("Incorrect Email for login");
+    const userExists = await User.findOne({ email });
+    if (userExists) throw Error("User already exists , try loging In");
 
-  const compare = await bcrypt.compare(password, user.password);
+    if (!validator.isStrongPassword(password))
+      throw Error("Please enter a strong password");
 
-  if (!compare) {
-    throw Error("Incorrect Password");
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(password, salt);
+
+    const user = await User.create({ name: name, email: email, password: hash, isStudent: isStudent });
+
+    const token = createToken(user._id);
+
+    const data = { user, token }
+
+    resp.json(data);
   }
-  resp.json(user);
+  catch (err) {
+    console.log(err);
   }
-  catch(err)
-  {
+
+}
+async function Login(req, resp) {
+  const { email, password } = req.body;
+  try {
+    if (!email || !password)
+      throw Error("All fields are required");
+
+    const user = await User.findOne({ email })
+    if (!user) throw Error("Incorrect Email for login");
+
+    const compare = await bcrypt.compare(password, user.password);
+
+    if (!compare) {
+      throw Error("Incorrect Password");
+    }
+
+    const token = createToken(user._id);
+
+    const data = { user, token }
+
+    resp.json(data);
+  }
+  catch (err) {
     console.log(err);
   }
 }
 module.exports = {
-  Login, 
+  Login,
   SignUp
 }
 
