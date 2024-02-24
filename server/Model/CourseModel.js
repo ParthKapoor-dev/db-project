@@ -1,7 +1,5 @@
 const mongoose=require("mongoose");
 
-function getCourseModel()
-{
     let Course=new mongoose.Schema(
         {
             name:String,
@@ -10,14 +8,13 @@ function getCourseModel()
             price:Number,
             starttime:Date,
             endtime:Date,
-            topics:Array
+            topics:Array,
+            coursevideo:Array
         },
         {
             versionKey:false
         }
     )
     const CourseModel=mongoose.model("CourseCollection",Course);
-    return CourseModel;
-}
 
-module.exports={getCourseModel};
+module.exports= CourseModel;

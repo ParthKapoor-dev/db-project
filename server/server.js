@@ -5,8 +5,10 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const AuthRouter=require("./Router/AuthRouter");
 const CourseRouter=require("./Router/CourseRouter");
+const bodyparser=require("body-parser");
 
 app.use(cors())
+app.use(bodyparser.json());
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
