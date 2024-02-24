@@ -14,7 +14,7 @@ app.get('/', (req, res) => {
   res.json({ message: 'ON HOME PAGE' })
 })
 
-app.use("/users",UserRouter)
+app.use("/auth",UserRouter)
 
 mongoose.connect(process.env.MONGO_URL).then(() => {
   app.listen(process.env.PORT, () => {
