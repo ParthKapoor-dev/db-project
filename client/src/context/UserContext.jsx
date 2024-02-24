@@ -7,7 +7,8 @@ export function handleReducerHook(prevState, action) {
 
   switch (action.type) {
     case "login": {
-      console.log(`${action.payload.user.name} has logged In`)
+      console.log(`${action.payload.user.name} has logged In`);
+      localStorage.setItem('user' , JSON.stringify(action.payload))
       return { ...action.payload }
     }
     case "logout": {
@@ -29,7 +30,7 @@ export function UserContextProvider({ children }) {
     const userData = JSON.parse(localStorage.getItem('user'));
 
     if (userData) {
-      dispatch('login', userData)
+      dispatch({type : 'login' , payload : userData})
     }
   }, []);
 

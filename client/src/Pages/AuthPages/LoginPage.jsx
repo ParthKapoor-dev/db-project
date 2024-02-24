@@ -1,9 +1,19 @@
+import { useRef } from "react";
 import { CurrentMode } from "../../../currentMode";
 
 
 export default function LoginPage() {
 
+  const emailRef = useRef();
+  const passwordRef = useRef();
+
   async function handleSubmit() {
+
+
+    const body = {
+      email: emailRef.current.value,
+      password: passwordRef.current.value,
+    }
 
     const serverUrl = CurrentMode.url + '/auth/login'
     const response = await fetch(serverUrl, {
@@ -34,11 +44,12 @@ export default function LoginPage() {
       </div>
 
       <form className="loginPage-form" onSubmit={handleSubmit}>
-        <label htmlFor="loginPage-emial">Email</label>
-        <input type="text" id="loginPage-emial" />
+        <label htmlFor="loginPage-email">Email</label>
+        <input type="text" id="loginPage-email" ref={emailRef} required="true"/>
 
         <label htmlFor="loginPage-password">Password</label>
-        <input type="password" id="loginPage-password" />
+        <input type="password" id="loginPage-password" ref={passwordRef} required="true" />
+
         <button type="submit">Login</button>
       </form>
     </div>

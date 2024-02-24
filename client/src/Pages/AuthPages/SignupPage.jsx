@@ -1,20 +1,31 @@
 import { useRef } from "react";
 import { CurrentMode } from "../../../currentMode";
+import useUserContext from "../../hooks/useUserContext";
 
 export default function SignupPage() {
+
+  const { dispatch } = useUserContext();
 
   const nameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
+  const roleRef = useRef();
+
 
   async function handleSubmit(event) {
     event.preventDefault();
+
+    var isStudent;
+    if (roleRef.current.value == 'student') isStudent = true;
+    else if (roleRef.current.value == 'teacher') isStudent = false;
+    else console.error('In Correct value of User Role');
+
 
     const data = {
       name: nameRef.current.value,
       email: emailRef.current.value,
       password: passwordRef.current.value,
-      isStudent: true
+      isStudent
     };
 
 
@@ -34,7 +45,7 @@ export default function SignupPage() {
     if (response.ok) {
       console.log('Successful Registraion , User : ')
       console.log(json);
-      dispatch({ type : 'login' , payload : json})
+      dispatch({ type: 'login', payload: json })
     } else {
 
       console.error('Unsuccessful Registration')
@@ -51,13 +62,18 @@ export default function SignupPage() {
 
       <form className="signupPage-form" onSubmit={handleSubmit}>
         <label htmlFor="signupPage-name">Name</label>
-        <input type="text" id="signupPage-name" ref={nameRef} />
+        <input type="text" id="signupPage-name" ref={nameRef} required="true" />
 
         <label htmlFor="signupPage-emial">Email</label>
-        <input type="text" id="signupPage-emial" ref={emailRef} />
+        <input type="text" id="signupPage-emial" ref={emailRef} required="true" />
 
         <label htmlFor="signupPage-password">Password</label>
-        <input type="password" id="signupPage-password" ref={passwordRef} />
+        <input type="password" id="signupPage-password" ref={passwordRef} required="true" />
+
+        <select id="loginPage-userRole" ref={roleRef} required="true">
+          <option value="student">Student</option>
+          <option value="teacher">Teacher</option>
+        </select>
 
         <button type="submit">Signup</button>
       </form>

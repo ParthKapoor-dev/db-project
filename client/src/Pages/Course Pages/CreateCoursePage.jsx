@@ -10,10 +10,16 @@ export default function CreateCoursePage() {
   const startDateRef = useRef();
   const endDateRef = useRef();
   const topicsRef = useRef();
+  const { token, user } = useUserContext();
+  console.log(user, token);
 
-  async function handleSubmit() {
+  const someUser = localStorage.getItem('user');
+  console.log(someUser);
 
-    const { token, user } = useUserContext();
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+
     const serverUrl = CurrentMode.url + '/courses/add-course';
 
     const data = {
@@ -28,8 +34,8 @@ export default function CreateCoursePage() {
         subject: subjectRef.current.value,
         price: priceRef.current.value,
         starttime: startDateRef.current.value,
-        endtime : endDateRef.current.value,
-        topics : topicsRef.current.value
+        endtime: endDateRef.current.value,
+        topics: topicsRef.current.value
       }
     }
 
@@ -50,7 +56,7 @@ export default function CreateCoursePage() {
     }
   }
 
-  
+
   return (
     <div>
       Create Course Page;
@@ -60,16 +66,16 @@ export default function CreateCoursePage() {
         <input type="text" id="name" ref={nameRef} />
 
         <label htmlFor="subject">Course Subject</label>
-        <input type="text" id="subject" ref={subjectRef}/>
+        <input type="text" id="subject" ref={subjectRef} />
 
         <label htmlFor="price">Price</label>
         <input type="text" id="price" ref={priceRef} />
 
         <label htmlFor="start-time">Start Time</label>
-        <input type="text" id="start-time" ref={startDateRef}/>
+        <input type="date" id="start-time" ref={startDateRef} />
 
         <label htmlFor="end-time">End Time</label>
-        <input type="text" id="end-time" ref={endDateRef} />
+        <input type="date" id="end-time" ref={endDateRef} />
 
         <label htmlFor="topics">Topics</label>
         <input type="text" id="topics" ref={topicsRef} />
