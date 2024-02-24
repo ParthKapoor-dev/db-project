@@ -3,9 +3,9 @@ const Course = getCourseModel();
 const cloudinary = require('cloudinary').v2;
 
 cloudinary.config({
-    cloud_name: 'dyzhzkwwn',
-    api_key: '817382288137877',
-    api_secret: 'ZXA8DlBRcM_8eLSlaYvcfEGBiQU'
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.API_KEY,
+    api_secret: process.env.API_SECRET
   });
 
 async function AddCourse(req, resp) {
