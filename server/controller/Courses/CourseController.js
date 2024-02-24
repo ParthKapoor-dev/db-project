@@ -29,4 +29,19 @@ async function ListCourses(req, resp) {
     }
 }
 
-module.exports = { ListCourses, AddCourse };
+
+async function DisplayCourse(req, resp) {
+    try {
+        const _id = req.query.id;
+        const coursedetails = await Course.findOne({ _id });
+        if (coursedetails != null)
+            resp.json(coursedetails);
+        else throw Error("Course not available");
+    }
+    catch (err) {
+        console.log(err);
+    }
+
+}
+
+module.exports = { ListCourses, AddCourse, DisplayCourse };
