@@ -9,10 +9,10 @@ const upload = multer({ dest: 'uploads/' });
 
 app.use(requireAuth);
 
-app.post("/add-course",upload.single("videoFile"),AddCourse);
-app.get("/list-course",ListCourses);
+app.post("/add-course",AddCourse);
+app.get("/list-course", ListCourses);
 
 app.get('/display-course/:id', DisplayCourse);
 app.get('/my-courses', getUserCourses)
-app.post("/course-video",AddCourseVideo)
+app.post("/course-video",upload.single("videoFile"), AddCourseVideo)
 module.exports = app;

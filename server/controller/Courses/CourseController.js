@@ -1,3 +1,4 @@
+// const CourseModel = require("../../Model/CourseModel");
 const Course = require("../../Model/CourseModel");
 const cloudinary = require('cloudinary').v2;
 
@@ -5,16 +6,16 @@ cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,
     api_key: process.env.API_KEY,
     api_secret: process.env.API_SECRET
-  });
+});
 
 
 async function AddCourse(req, resp) {
     console.log(req.body);
     const { name, instructor, subject, price, starttime, endtime, topics } = req.body;
     try {
-            const course = await Course.create({ name: name, instructor: instructor, subject: subject, price: price, starttime: starttime, endtime: endtime, topics: topics });
-            resp.json(course);
-        }
+        const course = await Course.create({ name: name, instructor: instructor, subject: subject, price: price, starttime: starttime, endtime: endtime, topics: topics });
+        resp.json(course);
+    }
     catch (err) {
         console.log(err);
     }
@@ -58,38 +59,34 @@ async function getUserCourses(req, res) {
     }
 }
 
-async function AddCourseVideo(req,resp)
-{
-    try
-    {
-        const { id,videodetails } = JSON.parse(req.body.data);
+async function AddCourseVideo(req, resp) {
+    try {
+        console.log(req.body)
+        const { id, videoDetails } = JSON.parse(req.body.data);
         console.log(req.file);
 
-        if (!user.isStudent) {
-            const result= await cloudinary.uploader.upload(req.file.path,{
-                resource_type:'video',
-                folder:'videos'
-            });
-            console.log("file uploaded successfully",result.url);
+        // if (!user.isStudent) {
+        const result = await cloudinary.uploader.upload(req.file.path, {
+            resource_type: 'video',
+            folder: 'videos'
+        });
+        console.log("file uploaded successfully", result.url);
 
-        const validcourse= await Course.updateOne({_id:id},{$set:{coursevideo:{...videodetails,"link":result.url}}})
-        if(validcourse.matchedCount>0)
-        {
-            resp.json("video link added to database");
-        }
-        else reps.json("course not found");
-        }
-        else {
-            throw Error("Student cannot add courses");
-        }
+        const validcourse = await Course.findOne({ _id: id });
+        validcourse.coursevideo.push({ ...videoDetails, link: result.url });
+        await validcourse.save();
+
+        // }
+        // else {
+        //     throw Error("Student cannot add courses");
+        // }
     }
-    catch(err)
-    {
+    catch (err) {
         console.log(err);
-        resp.json(err);
+        resp.status(404).json(err);
     }
-    
+
 }
 
-module.exports = { ListCourses, AddCourse, DisplayCourse, AddCourseVideo , getUserCourses };
+module.exports = { ListCourses, AddCourse, DisplayCourse, AddCourseVideo, getUserCourses };
 

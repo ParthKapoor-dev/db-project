@@ -1,16 +1,17 @@
 import { useRef, useState } from "react";
 import { CurrentMode } from "../../../currentMode"
 import useUserContext from "../../hooks/useUserContext";
+import { useNavigate } from "react-router";
 
 export default function CreateCoursePage() {
 
+  const Navigate = useNavigate();
   const nameRef = useRef();
   const priceRef = useRef();
   const subjectRef = useRef();
   const startDateRef = useRef();
   const endDateRef = useRef();
   const topicsRef = useRef();
-  const [videoFile,setVideoFile] = useState(null);
   const { token, user } = useUserContext();
   console.log(user, token);
 
@@ -24,41 +25,33 @@ export default function CreateCoursePage() {
     const serverUrl = CurrentMode.url + '/courses/add-course';
 
     const data = {
-      user,
-      details: {
-        instructor: {
-          name: user.name,
-          id: user._id,
-          email: user.email
-        },
-        name: nameRef.current.value,
-        subject: subjectRef.current.value,
-        price: priceRef.current.value,
-        starttime: startDateRef.current.value,
-        endtime: endDateRef.current.value,
-        topics: topicsRef.current.value,
-        coursevideo:videoFile
-      }
+      instructor: {
+        name: user.name,
+        id: user._id,
+        email: user.email
+      },
+      name: nameRef.current.value,
+      subject: subjectRef.current.value,
+      price: priceRef.current.value,
+      starttime: startDateRef.current.value,
+      endtime: endDateRef.current.value,
+      topics: topicsRef.current.value,
     }
-    console.log(videoFile);
-    console.log(data);
 
-    const formData= new FormData();
-    formData.append("data",JSON.stringify(data));
-    formData.append("videoFile",videoFile);
-    console.log(formData);
 
     const response = await fetch(serverUrl, {
       method: "POST",
       headers: {
+        'content-type': 'application/json',
         'Authorization': `Bearer ${token}`
       },
-      body: formData
+      body: JSON.stringify(data)
     });
     const json = await response.json();
 
     if (response.ok) {
       console.log(json);
+      Navigate('/explore/courses');
     } else {
       throw new Error("network error");
       console.error(json);
@@ -70,12 +63,12 @@ export default function CreateCoursePage() {
     <div className="flex flex-col items-center justify-center my-4 text-2xl font-bold ">
       Create Course Page
 
-      <form onSubmit={handleSubmit} className="flex flex-col text-lg font-normal mt-4" >
+      <form onSubmit={handleSubmit} className="input-styles flex flex-col text-lg font-normal mt-4" >
         <label htmlFor="name">Course Title</label>
         <input type="text" id="name" ref={nameRef} />
 
         <label htmlFor="subject">Course Subject</label>
-        <input type="text" id="subject" ref={subjectRef} />
+        <textarea type="text" id="subject" ref={subjectRef} className="h-[20vh]" />
 
         <label htmlFor="price">Price</label>
         <input type="text" id="price" ref={priceRef} />
@@ -89,10 +82,9 @@ export default function CreateCoursePage() {
         <label htmlFor="topics">Topics</label>
         <input type="text" id="topics" ref={topicsRef} />
 
-        <label htmlFor="video">Video</label>
-        <input type="file" id="videoFile" name="videoFile" accept="video/*" onChange={(event)=>setVideoFile(event.target.files[0])}/>
-
-        <button>Submit Course</button>
+        <button type="submit" className="bg-purple-600 hover:bg-purple-800 py-2 text-white duration-100 font-bold">
+          Submit Course
+        </button>
       </form>
     </div>
   )

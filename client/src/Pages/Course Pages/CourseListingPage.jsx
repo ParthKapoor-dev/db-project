@@ -14,7 +14,7 @@ export default function CourseListingPage() {
 
   useEffect(() => {
     if (token) fetchRelatedCourses(token, setCourses, setLoading);
-  })
+  },[])
 
 
   if (loading)

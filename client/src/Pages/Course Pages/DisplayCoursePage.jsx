@@ -61,6 +61,19 @@ export default function DisplayCoursePage() {
           </div>
         </div>
       </div>
+      <div>
+        <div className="">
+          <div className="text-4xl mb-10 flex justify-center items-center mt-6 font-semibold">
+            Lectures
+
+          </div>
+        </div>
+        <div className="flex flex-col gap-4">
+          {course.coursevideo.map(item => (
+            <CourseVideo video={item} />
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
@@ -86,4 +99,24 @@ export async function fetchCourse(token, courseId, setCourse, setLoading) {
     console.error('Error : Cannot Fetch Course');
   }
 
+}
+
+function CourseVideo({ video }) {
+
+  return (
+    <div className="flex flex-col justify-normal items-start">
+      {/* <div className="text-xl">
+        {video.title}
+      </div> */}
+
+      <details>
+        <summary className="text-xl">
+          {video.title}
+        </summary>
+        <div>
+          <video src={video.link} className="w-[30vw]" controls={true}> </video>
+        </div>
+      </details>
+    </div>
+  )
 }
