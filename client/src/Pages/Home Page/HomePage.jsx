@@ -1,6 +1,12 @@
+import { useEffect, useState } from "react";
 import NewSubGroups from "../../Components/Subgroups/New-Subgroups";
+import useUserContext from "../../hooks/useUserContext";
+import { useNavigate } from "react-router";
 
 export default function HomePage() {
+
+  const { user } = useUserContext();
+  const [subgroups, setSubgroups] = useState(user.subgroups);
 
   return (
     <div className="w-[80vw]">
@@ -19,11 +25,29 @@ export default function HomePage() {
         <div className="text-2xl font-semibold bg-xdarkbl text-white h-[10vh] w-[40vw] flex justify-center items-center rounded">
           Sub Groups
         </div>
-
+        <div>
+          {subgroups.map(item => (
+            <Group item={item} key={item.grpid} />
+          ))}
+        </div>
         <div>
           <NewSubGroups />
         </div>
       </div>
+    </div>
+  )
+}
+
+function Group({ item }) {
+
+  const Navigate = useNavigate()
+  function handleGroupPage() {
+    Navigate('/subgroups/' + item.grpname, { state: { groupId: item.grpid } });
+  }
+
+  return (
+    <div onClick={handleGroupPage}>
+      {item.grpname}
     </div>
   )
 }

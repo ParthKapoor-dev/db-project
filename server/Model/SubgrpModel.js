@@ -3,7 +3,7 @@ const mongoose=require("mongoose");
 let subgroup=new mongoose.Schema(
     {
         name:String,
-        teacher:String,
+        teacherId:String,
         students:Array
     },
     {

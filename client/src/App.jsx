@@ -33,7 +33,7 @@ export default function App() {
         <Route path='/classroom' element={user ? (user.isStudent ? <StudentClassroom /> : <TeacherClassroom />) : <Navigate to='/user/login' />} />
         <Route path='/my-courses/:id' element={!user?.isStudent ? <MyCourse /> : <Navigate to='/explore/courses' />} /> */}
         <Route path='/home' element={!user ? <Navigate to='/user/login' /> : <Web child={<HomePage />} />} />
-        <Route path='/subgroups/update' element={!user ? <Navigate to='/user/login' /> : <Web child={<ShowSubGroup />} />} />
+        <Route path='/subgroups/:id' element={!user ? <Navigate to='/user/login' /> : <Web child={<ShowSubGroup />} />} />
 
       </Routes>
     </div>
