@@ -5,7 +5,11 @@ const prod = {
 
 const dev = {
   mode: "Development Mode",
-  url : "http://localhost:3000"
+  url: "http://localhost:3000"
 }
 
-export const CurrentMode = dev
+export const CurrentMode = dev;
+
+export const path = {
+  subgroup : (slag)=>`/subgroups/${slag}`
+}

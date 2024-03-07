@@ -1,45 +1,43 @@
-const subgroupModel = require("../../Model/SubgrpModel");
+const { subgroupModel } = require("../../Model/SubgrpModel");
 const UserModel = require("../../Model/UserModel");
 
-async function AddSubgroup(req,resp)
-{
-    const {teacherid,grpname}=req.body;
-    try
-    {
-    const newsubgrp=await subgroupModel.create({name:grpname,students:[]});
+async function AddSubgroup(req, resp) {
+    const { subgroupName, teacherId } = req.body;
+    try {
+        const subgroup = await subgroupModel.create({
+            name: subgroupName,
+            students: [],
+        });
 
-    const teacher=await UserModel.findOne({_id: teacherid});
-    teacher.subgroups.push({
-        grpname: grpname,
-        subgrpID: newsubgrp._id
-    })
-    const Teacher=await teacher.save();
-    resp.json(Teacher);
+        const teacher = await UserModel.findOne({ _id: teacherId });
+        console.log(teacher);
+        teacher.subgroups.push({
+            grpid: subgroup._id,
+            grpname: subgroupName
+        });
+        await teacher.save();
+        resp.json(teacher);
+
     }
-    catch(err)
-    {
+    catch (err) {
         console.log(err);
         resp.json(err)
     }
 }
 
-async function AddStudent(req,resp)
-{
-    const {grpid,studentDetails}=req.body;
-    try
-    {
-    const subgroup=await subgroupModel.findOne({_id:grpid});
-    subgroup.students.push({
-        studentDetails
-    });
-    const SubGrp=await subgroup.save();
-    resp.json(SubGrp);
+async function AddStudent(req, resp) {
+    const { subgroupId, studentDetails } = req.body;
+    try {
+        const subgroup = await subgroupModel.findOne({ _id: subgroupId });
+        subgroup.students.push(studentDetails);
+        await subgroup.save();
+
+        resp.json(subgroup);
     }
-    catch(err)
-    {
+    catch (err) {
         console.log(err);
         resp.json(err)
     }
 }
 
-module.exports={AddSubgroup,AddStudent}
+module.exports = { AddSubgroup, AddStudent }

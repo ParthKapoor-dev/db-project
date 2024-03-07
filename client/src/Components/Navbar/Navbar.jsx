@@ -14,8 +14,8 @@ export default function Navbar() {
   return (
     <nav className="flex items-center justify-between px-8 py-4 border-b-[0.5px] border-b-slate-300" >
       <div className="flex justify-center items-center">
-        <Link to="/explore/courses" className="cursor-pointer text-2xl text-purple-600 font-bold">
-          UpSkill
+        <Link to="/explore/courses" className="cursor-pointer text-2xl text-lightbl font-bold">
+          ECE Webkiosk
         </Link>
         {user && (
           <input type="text" className='rounded-3xl px-6 py-2 w-[25vw] border-2 border-grey-200 text-lg ml-4' />
@@ -53,10 +53,10 @@ export default function Navbar() {
           </>
         ) : (
           <>
-            <Link to="/user/login" className="cursor-pointer px-2 py-2 border-2 border-purple-600 text-purple-600 font-bold hover:bg-slate-200 duration-100">
+            <Link to="/user/login" className="cursor-pointer px-2 py-2 border-2 border-lightbl text-lightbl font-bold hover:bg-slate-200 duration-100">
               Log In
             </Link>
-            <Link to="/user/signup" className="cursor-pointer px-2 py-2 border-2 border-purple-600 bg-purple-600 font-bold text-white hover:bg-purple-800 hover:border-purple-800">
+            <Link to="/user/signup" className="cursor-pointer px-2 py-2 border-2 border-lightbl bg-lightbl font-bold text-white hover:bg-darkbl hover:border-darkbl">
               SignUp
             </Link>
           </>

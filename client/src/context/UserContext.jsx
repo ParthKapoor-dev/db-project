@@ -16,6 +16,14 @@ export function handleReducerHook(prevState, action) {
       localStorage.removeItem('user')
       return { user: null, token: null }
     }
+    case "UpdateUser": {
+      console.log("Updating User Info");
+      const data = {
+        ...prevState, user: action.payload
+      }
+      localStorage.setItem('user', JSON.stringify(data))
+      return data
+    }
   }
 }
 
