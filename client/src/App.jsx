@@ -11,6 +11,9 @@ import DisplayCoursePage from './Pages/Course Pages/DisplayCoursePage'
 import TeacherClassroom from './Pages/Classroom/TeacherClassroom'
 import StudentClassroom from './Pages/Classroom/StudentClassroom'
 import MyCourse from './Pages/Course Pages/MyCourse'
+import Web from './Components/App Sidebar/app-sidebar'
+import HomePage from './Pages/Home Page/HomePage'
+import ShowSubGroup from './Pages/Subgroup Pages/ShowSubgroups'
 
 export default function App() {
 
@@ -19,16 +22,19 @@ export default function App() {
 
   return (
     <div className="app-div">
-      <Navbar />
+      {/* <Navbar /> */}
       <Routes>
         {/* <Route path='/' element={!user ? <Navigate to='/user/login' /> : <Navigate to='/explore/courses'/>} /> */}
         <Route path="/user/login" element={user ? <Navigate to='/' /> : <LoginPage />} />
         <Route path='/user/signup' element={user ? <Navigate to='/' /> : <SignupPage />} />
-        <Route path='/explore/courses' element={!user ? <Navigate to='/user/login' /> : <CourseListingPage />} />
+        {/* <Route path='/explore/courses' element={!user ? <Navigate to='/user/login' /> : <CourseListingPage />} />
         <Route path='/courses/add-new' element={!user ? <Navigate to='/user/login' /> : <CreateCoursePage />} />
         <Route path='/course/:id' element={!user ? <Navigate to='/user/login' /> : <DisplayCoursePage />} />
         <Route path='/classroom' element={user ? (user.isStudent ? <StudentClassroom /> : <TeacherClassroom />) : <Navigate to='/user/login' />} />
-        <Route path='/my-courses/:id' element={!user?.isStudent ? <MyCourse /> : <Navigate to='/explore/courses' />} />
+        <Route path='/my-courses/:id' element={!user?.isStudent ? <MyCourse /> : <Navigate to='/explore/courses' />} /> */}
+        <Route path='/home' element={!user ? <Navigate to='/user/login' /> : <Web child={<HomePage />} />} />
+        <Route path='/subgroups/update' element={!user ? <Navigate to='/user/login' /> : <Web child={<ShowSubGroup />} />} />
+
       </Routes>
     </div>
   )

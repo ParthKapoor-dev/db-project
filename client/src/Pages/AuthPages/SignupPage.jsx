@@ -4,6 +4,7 @@ import useUserContext from "../../hooks/useUserContext";
 import { Link, useNavigate } from "react-router-dom";
 
 import "./style.css"
+import Navbar from "../../Components/Navbar/Navbar";
 
 export default function SignupPage() {
 
@@ -59,42 +60,45 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="mx-20 my-4 flex flex-col items-center justify-center gap-4">
-      <div className="text-2xl font-bold">
-        Signup Page
+    <div>
+      <Navbar />
+      <div className="mx-20 my-4 flex flex-col items-center justify-center gap-4">
+        <div className="text-2xl font-bold">
+          Signup Page
+        </div>
+
+        <form className="input-styles flex flex-col gap-[4px] justify-center text-lg" onSubmit={handleSubmit}>
+
+
+          <label htmlFor="signupPage-name">Name</label>
+          <input type="text" id="signupPage-name" ref={nameRef} required="true" />
+
+          <label htmlFor="signupPage-emial">Email</label>
+          <input type="text" id="signupPage-emial" ref={emailRef} required="true" />
+
+          <label htmlFor="signupPage-password">Password</label>
+          <input type="password" id="signupPage-password" ref={passwordRef} required="true" />
+
+          <label htmlFor="signupPage-userRole">User Role</label>
+          <select id="signupPage-userRole" ref={roleRef}>
+            <option value="student">Student</option>
+            <option value="teacher">Teacher</option>
+          </select>
+
+          <button type="submit" className="btn">Signup</button>
+
+          <Link to="/user/login" className="flex justify-center items-center mt-2 hover:">
+            Already have a account? <span className="text-purple-600">Login</span>
+          </Link>
+
+
+          {error && (
+            <div className="error-div">
+              {error}
+            </div>
+          )}
+        </form>
       </div>
-
-      <form className="input-styles flex flex-col gap-[4px] justify-center text-lg" onSubmit={handleSubmit}>
-
-
-        <label htmlFor="signupPage-name">Name</label>
-        <input type="text" id="signupPage-name" ref={nameRef} required="true" />
-
-        <label htmlFor="signupPage-emial">Email</label>
-        <input type="text" id="signupPage-emial" ref={emailRef} required="true" />
-
-        <label htmlFor="signupPage-password">Password</label>
-        <input type="password" id="signupPage-password" ref={passwordRef} required="true" />
-
-        <label htmlFor="signupPage-userRole">User Role</label>
-        <select id="signupPage-userRole" ref={roleRef}>
-          <option value="student">Student</option>
-          <option value="teacher">Teacher</option>
-        </select>
-
-        <button type="submit" className="bg-purple-600 hover:bg-purple-800 py-2 text-white duration-100 font-bold">Signup</button>
-
-        <Link to="/user/login" className="flex justify-center items-center mt-2 hover:">
-          Already have a account? <span className="text-purple-600">Login</span>
-        </Link>
-
-
-        {error && (
-          <div className="flex justify-center items-center border-2 border-red-500 text-red-500 py-2">
-            {error}
-          </div>
-        )}
-      </form>
     </div>
   )
 }
