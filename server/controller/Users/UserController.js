@@ -1,4 +1,4 @@
-const { subgroupModel } = require("../../Model/SubgrpModel");
+const subgroupModel = require("../../Model/SubgrpModel");
 const UserModel = require("../../Model/UserModel");
 
 async function AddSubgroup(req, resp) {
@@ -10,14 +10,14 @@ async function AddSubgroup(req, resp) {
         });
 
         const teacher = await UserModel.findOne({ _id: teacherId });
+        console.log(teacherId)
         console.log(teacher);
-        teacher.subgroups.push({
+        teacher.subgroups = [...teacher.subgroups, {
             grpid: subgroup._id,
             grpname: subgroupName
-        });
-        await teacher.save();
-        resp.json(teacher);
-
+        }];
+        const Teacher = await teacher.save();
+        resp.json(Teacher);
     }
     catch (err) {
         console.log(err);
@@ -39,5 +39,18 @@ async function AddStudent(req, resp) {
         resp.json(err)
     }
 }
+async function FetchSubgrp(req, resp) {
 
-module.exports = { AddSubgroup, AddStudent }
+    const { _id } = req.query;
+    try {
+        const grpdetails = await subgroupModel.findOne({ _id });
+
+        resp.json(grpdetails);
+    }
+    catch (err) {
+        console.log(err);
+        resp.status(404).json(err);
+    }
+}
+
+module.exports = { AddSubgroup, AddStudent, FetchSubgrp }

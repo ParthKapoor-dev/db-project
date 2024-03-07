@@ -36,7 +36,7 @@ export default function LoginPage() {
       console.log('Successful Registraion , User : ')
       console.log(json);
       dispatch({ type: 'login', payload: json });
-      Navigate('/explore/courses');
+      Navigate('/home');
     } else {
 
       console.error('Unsuccessful Registration')

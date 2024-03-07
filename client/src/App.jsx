@@ -13,7 +13,7 @@ import StudentClassroom from './Pages/Classroom/StudentClassroom'
 import MyCourse from './Pages/Course Pages/MyCourse'
 import Web from './Components/App Sidebar/app-sidebar'
 import HomePage from './Pages/Home Page/HomePage'
-import ShowSubGroup from './Pages/Subgroup Pages/ShowSubgroups'
+import ShowGroups from './Pages/Subgroup Pages/Show-Subgroup'
 
 export default function App() {
 
@@ -33,7 +33,7 @@ export default function App() {
         <Route path='/classroom' element={user ? (user.isStudent ? <StudentClassroom /> : <TeacherClassroom />) : <Navigate to='/user/login' />} />
         <Route path='/my-courses/:id' element={!user?.isStudent ? <MyCourse /> : <Navigate to='/explore/courses' />} /> */}
         <Route path='/home' element={!user ? <Navigate to='/user/login' /> : <Web child={<HomePage />} />} />
-        <Route path='/subgroups/:id' element={!user ? <Navigate to='/user/login' /> : <Web child={<ShowSubGroup />} />} />
+        <Route path='/subgroups/:id' element={!user ? <Navigate to='/user/login' /> : <Web child={<ShowGroups />} />} />
 
       </Routes>
     </div>

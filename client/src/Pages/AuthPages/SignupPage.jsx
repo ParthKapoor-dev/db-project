@@ -48,7 +48,7 @@ export default function SignupPage() {
       console.log('Successful Registraion , User : ')
       console.log(json);
       dispatch({ type: 'login', payload: json });
-      Navigate('/explore/courses');
+      Navigate('/home');
 
     } else {
 
