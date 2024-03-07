@@ -3,10 +3,12 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const cors = require('cors');
+
 const AuthRouter = require("./Router/AuthRouter");
 const CourseRouter = require("./Router/CourseRouter");
 const userRouter = require('./Router/UserRoute');
 const bodyparser = require("body-parser");
+
 
 app.use(cors())
 app.use(bodyparser.json());

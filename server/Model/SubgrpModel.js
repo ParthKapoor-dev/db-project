@@ -3,7 +3,6 @@ const mongoose=require("mongoose");
 let subgroup=new mongoose.Schema(
     {
         name:String,
-        teacherId:String,
         students:Array
     },
     {
@@ -13,4 +12,4 @@ let subgroup=new mongoose.Schema(
 
 const subgroupModel=mongoose.model("subgroupCollection",subgroup);
 
-module.exports={subgroupModel} 
+module.exports= subgroupModel;

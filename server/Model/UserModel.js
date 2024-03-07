@@ -7,6 +7,7 @@ let user = new mongoose.Schema(
         password: String,
         isStudent: Boolean,
         subgroups : Array
+
     },
     {
         versionKey: false
