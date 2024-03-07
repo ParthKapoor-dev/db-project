@@ -6,6 +6,7 @@ const cors = require('cors');
 const AuthRouter=require("./Router/AuthRouter");
 const CourseRouter=require("./Router/CourseRouter");
 const bodyparser=require("body-parser");
+const UserRoute=require("./Router/UserRoute");
 
 app.use(cors())
 app.use(bodyparser.json());
@@ -19,6 +20,7 @@ app.get('/', (req, res) => {
 
 app.use("/auth",AuthRouter);
 app.use("/courses",CourseRouter);
+app.use("/users",UserRoute)
 
 mongoose.connect(process.env.MONGO_URL).then(() => {
   app.listen(process.env.PORT, () => {

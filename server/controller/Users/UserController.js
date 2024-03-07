@@ -1,13 +1,20 @@
-const { subgroupModel } = require("../../Model/SubgrpModel");
-const {teacherModel}=require("../../Model/TeacherModel");
+const subgroupModel = require("../../Model/SubgrpModel");
+const UserModel = require("../../Model/UserModel");
 
 async function AddSubgroup(req,resp)
 {
-    const {name,email,subject,subgroup}=req.body;
+    const {teacherid,grpname}=req.body;
     try
     {
-    const teacher=await teacherModel.create({name:name,email:email,subject:subject,subgroup:subgroup});
-    resp.json(teacher);
+    const newsubgrp=await subgroupModel.create({name:grpname,students:[]});
+
+    const teacher=await UserModel.findOne({_id: teacherid});
+    teacher.subgroups.push({
+        grpname: grpname,
+        subgrpID: newsubgrp._id
+    })
+    const Teacher=await teacher.save();
+    resp.json(Teacher);
     }
     catch(err)
     {
@@ -18,11 +25,15 @@ async function AddSubgroup(req,resp)
 
 async function AddStudent(req,resp)
 {
-    const {name,teacher,students}=req.body;
+    const {grpid,studentDetails}=req.body;
     try
     {
-    const subgroup=await subgroupModel.create({name:name,teacher:teacher,students:students});
-    resp.json(subgroup);
+    const subgroup=await subgroupModel.findOne({_id:grpid});
+    subgroup.students.push({
+        studentDetails
+    });
+    const SubGrp=await subgroup.save();
+    resp.json(SubGrp);
     }
     catch(err)
     {
