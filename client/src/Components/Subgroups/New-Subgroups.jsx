@@ -44,25 +44,16 @@ export default function NewSubGroups({ setGroups }) {
 
   return (
 
-    <div className="flex flex-col ">
-      {open ? (
-        <form onSubmit={handleAddSubgroup} className="input-styles flex flex-col text-lg z-50 absolute border-2 border-darkbl p-8 bg-white top-[50vh] left-[50vw] translate-x-[-20%] translate-y-[-60%]">
-          <div className="flex justify-center items-center text-2xl font-semibold">
-            Add New Subgroups
-          </div>
-          <label htmlFor="grp-name">Sub Group Name</label>
-          <input type="text" id="grp-name" ref={nameRef} />
-          <button type="submit" className="btn">Add Sub Group</button>
-          <button className="error-div mt-4" onClick={() => setOpen(false)}>
-            Close
-          </button>
-        </form>
-
-      ) : (
-        <button className="btn w-[30vw]  text-lg" onClick={() => setOpen(true)}>
-          Add Sub Group
-        </button>
-      )}
-    </div>
+    <form onSubmit={handleAddSubgroup} className=" w-[15vw] box-content input-styles flex flex-col text-lg border-2 border-slate-400  py-4 px-6 rounded ">
+      <div className="flex justify-center items-center text-2xl font-semibold">
+        Add New Subgroups
+      </div>
+      <label htmlFor="grp-name">Sub Group Name</label>
+      <input type="text" id="grp-name" ref={nameRef} style={{ width: '15vw' }} />
+      <button type="submit" className="btn">Add Sub Group</button>
+      <button className="error-div mt-4" onClick={() => setOpen(false)}>
+        Close
+      </button>
+    </form>
   )
 }

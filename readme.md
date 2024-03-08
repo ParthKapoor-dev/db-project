@@ -1,6 +1,5 @@
 # ECED Database Project
 Student - Teacher Dashboard App for ECE Department , to store Capstones Projects & Other details of Students
-
 ## Tech Stack
 - MongoDB
 - Express.js
