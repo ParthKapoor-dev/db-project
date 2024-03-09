@@ -1,6 +1,6 @@
 .input-styles>input,
-select,
-textarea {
+.input-styles>select,
+.input-styles>textarea {
   width: 30vw;
   border: 0.5px solid rgb(220, 220, 220);
   border-radius: 5px !important;

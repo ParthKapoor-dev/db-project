@@ -24,7 +24,7 @@ export default function HomePage() {
       <div className="h-4 border-t-2 border-t-slate-400 mx-20 mb-4">
       </div>
 
-      <div className="flex justify-center gap-10 items-center">
+      <div className="flex justify-center gap-10">
         <SubGroupListingPage />
         <NewSubGroups />
       </div>

@@ -46,15 +46,64 @@ export default function ShowGroups() {
         <div className="text-2xl font-semibold">
           Sub Group : {group.name}
         </div>
-        <div>
-          <div className="text-2xl mb-4">
-            Student Table
+        <div className="bg-lighterbl text-white rounded py-2 w-[70vw]">
+
+          <div className="px-6 h-15 flex items-center justify-between py-4">
+
+            <input type="text" className="bg-lighterbl text-lg border-2 border-slate-600  px-2 focus-visible:outline-0 rounded py-1" placeholder="Search Students" />
+
+            <div className="flex gap-6 ">
+              <select name="" id="" className="bg-lighterbl text-lg border-2 border-slate-600  px-2 w-[10vw] focus-visible:outline-0 rounded py-1">
+                <option value="name" className="py-2">Name</option>
+                <option value="rollno">Roll No</option>
+                <option value="marks">Marks</option>
+              </select>
+
+              <AddStudent />
+              </div>
           </div>
-          <div className="flex flex-col gap-4 text-lg">
-            {group.students.map(item => (
-              <Student item={item} key={item.name} />
+          <div className="text-lg py-2 bg-darkbl px-6 flex items-center">
+
+            <div className="w-10">
+              #
+            </div>
+
+            <div className="w-60">
+              NAME
+            </div>
+
+            <div className="w-60">
+              ROLL NO
+            </div>
+
+            <div className="w-40">
+              OS
+            </div>
+
+            <div className="w-40">
+              CP
+            </div>
+
+            <div className="w-40">
+              ELEC
+            </div>
+
+            <div className="w-40">
+              CN
+            </div>
+
+            <div className="w-40">
+              ACTIONS
+            </div>
+
+          </div>
+          <div className="flex flex-col text-lg">
+            {group.students.map((item, index) => (
+              <Student item={item} key={item.name} index={index + 1} />
             ))}
           </div>
+        </div>
+        <div>
         </div>
       </div>
     ) : (
@@ -68,18 +117,43 @@ export default function ShowGroups() {
 
 
 
-function Student({ item }) {
+function Student({ item, index }) {
 
   console.log(item);
   return (
-    <div className="border-2 gap-4 flex border-slate-300 rounded px-4 py-2 w-[50vw]">
-      <div>
+    // <div className="border-b-2 gap-4 flex border-slate-500  px-4 py-2 w-full">
+
+    <div className="text-lg py-2 px-6 border-b-2 border-slate-600 bg-lighterbl bg-darkbl flex items-center">
+
+      <div className="w-10">
+        {index}
+      </div>
+
+      <div className="w-60">
         {item.name}
       </div>
 
-      <div>
+      <div className="w-60">
         {item.rollno}
       </div>
+
+      <div className="w-40">
+        {item.os_marks}
+      </div>
+
+      <div className="w-40">
+        {item.cp_marks}
+      </div>
+
+      <div className="w-40">
+        {item.elec_marks}
+      </div>
+
+      <div className="w-40">
+        {item.cn_marks}
+      </div>
+
+      {/* </div> */}
     </div>
   )
 }

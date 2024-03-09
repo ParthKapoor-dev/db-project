@@ -4,6 +4,10 @@ const UserModel = require("../../Model/UserModel");
 async function AddSubgroup(req, resp) {
     const { subgroupName, teacherId } = req.body;
     try {
+
+        if (!subgroupName)
+        throw Error("Invalid SubGroup Name");
+
         const subgroup = await subgroupModel.create({
             name: subgroupName,
             students: [],
@@ -21,13 +25,18 @@ async function AddSubgroup(req, resp) {
     }
     catch (err) {
         console.log(err);
-        resp.json(err)
+        resp.status(404).json({
+            error : err.message
+        })
     }
 }
 
 async function AddStudent(req, resp) {
     const { subgroupId, studentDetails } = req.body;
+    const { name, email, rollNo , os_marks , cp_marks , elec_marks } = req.body;
     try {
+        if (!(name && email && rollNo && os_marks && cp_marks && elec_marks))
+            throw Error("All Fields are required");
         const subgroup = await subgroupModel.findOne({ _id: subgroupId });
         subgroup.students.push(studentDetails);
         await subgroup.save();
@@ -36,7 +45,7 @@ async function AddStudent(req, resp) {
     }
     catch (err) {
         console.log(err);
-        resp.json(err)
+        resp.status(404).json(err)
     }
 }
 async function FetchSubgrp(req, resp) {

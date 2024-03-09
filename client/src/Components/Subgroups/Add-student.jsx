@@ -1,14 +1,22 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { CurrentMode } from "../../../currentMode";
 import useUserContext from "../../hooks/useUserContext";
 
-export default function AddStudent({setGroup , subgroupId}) {
+export default function AddStudent({ setGroup, subgroupId }) {
 
   const nameRef = useRef();
-  const classRef = useRef();
+  const emailRef = useRef();
   const rollnoRef = useRef();
   const { token } = useUserContext();
+  const [isOpen, setIsOpen] = useState(false);
+  const [error, setError] = useState(false);
 
+  function handleOpen() {
+    setIsOpen(true);
+  }
+  function handleClose() {
+    setIsOpen(false);
+  }
   async function handleSubmit(event) {
 
     event.preventDefault();
@@ -17,7 +25,7 @@ export default function AddStudent({setGroup , subgroupId}) {
       subgroupId,
       studentDetails: {
         name: nameRef.current.value,
-        class: classRef.current.value,
+        email: emailRef.current.value,
         rollno: rollnoRef.current.value
       }
     }
@@ -37,31 +45,71 @@ export default function AddStudent({setGroup , subgroupId}) {
     if (response.ok) {
       console.log(json);
       setGroup(json);
+      handleClose();
     } else {
       console.error(json);
+      setError(json.message);
     }
   }
 
   return (
-
-    <form action="" className="input-styles flex flex-col" onSubmit={handleSubmit}>
-
-      <div>
-        Add Student
-      </div>
-
-      <label htmlFor="std-name">Student Name</label>
-      <input type="text" id="std-name" ref={nameRef} />
-
-      <label htmlFor="std-class">Student Class</label>
-      <input type="text" id="std-class" ref={classRef} />
-
-      <label htmlFor="std-rollno">Roll No.</label>
-      <input type="text" id="std-rollno" ref={rollnoRef} />
-
-      <button className="btn">
-        Submit
+    <div>
+      <button className="py-2 px-4 bg-blue-500 flex justify-center items-center rounded-lg" onClick={handleOpen}>
+        + Add Student
       </button>
-    </form>
+
+
+      {isOpen && (
+
+        <div className="z-10 absolute top-0 left-0 bg-opacity-100 bg-gray-500 h-full w-full flex justify-center items-center">
+          <form action="" className="flex flex-col p-8 bg-darkbl rounded justify-center w-[40vw]" onSubmit={handleSubmit}>
+
+            <label htmlFor="std-name">Name</label>
+            <input type="text" id="std-name" placeholder="Student's Name" ref={nameRef} className="bg-lighterbl text-lg border-2 border-slate-600  px-2 focus-visible:outline-0 rounded py-1 mb-4" />
+
+            <label htmlFor="std-email">Email</label>
+            <input type="text" id="std-email" placeholder="Student's Email" ref={emailRef} className="bg-lighterbl text-lg border-2 border-slate-600  px-2 focus-visible:outline-0 rounded py-1 mb-4" />
+
+            <label htmlFor="std-rollno">Roll No.</label>
+            <input type="number" id="std-rollno" placeholder="Student's Roll No" ref={rollnoRef} className="bg-lighterbl text-lg border-2 border-slate-600  px-2 focus-visible:outline-0 rounded py-1 mb-4" />
+
+            <div className="flex gap-4">
+              <div className="flex flex-col">
+                <label htmlFor="std-rollno">OS</label>
+                <input type="number" id="std-rollno" placeholder="" ref={rollnoRef} className="bg-lighterbl text-lg border-2 border-slate-600  px-2 focus-visible:outline-0 rounded py-1 mb-4 w-[5vw]" />
+              </div>
+              <div className="flex flex-col">
+                <label htmlFor="std-rollno">OS</label>
+                <input type="number" id="std-rollno" placeholder="" ref={rollnoRef} className="bg-lighterbl text-lg border-2 border-slate-600  px-2 focus-visible:outline-0 rounded py-1 mb-4 w-[5vw]" />
+              </div>
+              <div className="flex flex-col">
+                <label htmlFor="std-rollno">OS</label>
+                <input type="number" id="std-rollno" placeholder="" ref={rollnoRef} className="bg-lighterbl text-lg border-2 border-slate-600  px-2 focus-visible:outline-0 rounded py-1 mb-4 w-[5vw]" />
+              </div>
+              <div className="flex flex-col">
+                <label htmlFor="std-rollno">OS</label>
+                <input type="number" id="std-rollno" placeholder="" ref={rollnoRef} className="bg-lighterbl text-lg border-2 border-slate-600  px-2 focus-visible:outline-0 rounded py-1 mb-4 w-[5vw]" />
+              </div>
+            </div>
+
+            <div className="flex gap-4 justify-end">
+              <button className="py-2 px-4 bg-blue-500 flex justify-center items-center rounded-lg" type="submit">
+                Add
+              </button>
+
+              <button onClick={handleClose} className="py-2 px-4 bg-red-500 flex justify-center items-center rounded-lg">
+                Close
+              </button>
+            </div>
+
+            {error && (
+              <div className="error-div">
+                {error}
+              </div>
+            )}
+          </form>
+        </div>
+      )}
+    </div>
   )
 }

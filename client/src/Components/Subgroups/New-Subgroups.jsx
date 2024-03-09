@@ -8,7 +8,7 @@ export default function NewSubGroups({ setGroups }) {
 
   const nameRef = useRef();
   const { user, token, dispatch } = useUserContext();
-  const [open, setOpen] = useState(false);
+  const [error, setError] = useState(null);
 
   async function handleAddSubgroup(event) {
     event.preventDefault();
@@ -39,21 +39,26 @@ export default function NewSubGroups({ setGroups }) {
       nameRef.current.value = ""
     } else {
       console.error(json);
+      setError(json.error);
     }
   }
 
   return (
 
-    <form onSubmit={handleAddSubgroup} className=" w-[15vw] box-content input-styles flex flex-col text-lg border-2 border-slate-400  py-4 px-6 rounded ">
+    <form onSubmit={handleAddSubgroup} className=" w-[15vw] h-fit box-content input-styles flex flex-col text-lg border-2 border-slate-400  py-4 px-6 rounded ">
       <div className="flex justify-center items-center text-2xl font-semibold">
         Add New Subgroups
       </div>
       <label htmlFor="grp-name">Sub Group Name</label>
       <input type="text" id="grp-name" ref={nameRef} style={{ width: '15vw' }} />
       <button type="submit" className="btn">Add Sub Group</button>
-      <button className="error-div mt-4" onClick={() => setOpen(false)}>
-        Close
-      </button>
+      {
+        error && (
+          <div className="error-div mt-4">
+            {error}
+          </div>
+        )
+      }
     </form>
   )
 }
