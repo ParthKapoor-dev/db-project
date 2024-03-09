@@ -2,10 +2,13 @@ import "./style.css"
 import SubGroupListingPage from "../../Components/SubGroupListing/SubgroupListing";
 import useUserContext from "../../hooks/useUserContext";
 import NewSubGroups from "../../Components/Subgroups/New-Subgroups";
-
+import { useState } from "react";
 export default function HomePage() {
 
   const { user } = useUserContext();
+  const [subgroups, setSubgroups] = useState(user.subgroups);
+  const [showGroups, setShowGroups] = useState(subgroups);
+
 
   return (
     <div className="w-[80vw]">
@@ -25,8 +28,8 @@ export default function HomePage() {
       </div>
 
       <div className="flex justify-center gap-10">
-        <SubGroupListingPage />
-        <NewSubGroups />
+        <SubGroupListingPage subgroups={subgroups} setShowGroups={setShowGroups} showGroups={showGroups} />
+        <NewSubGroups setGroups={setSubgroups} setShowGroups={setShowGroups}/>
       </div>
     </div>
   )

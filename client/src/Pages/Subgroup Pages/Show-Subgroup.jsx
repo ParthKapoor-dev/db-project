@@ -11,6 +11,7 @@ export default function ShowGroups() {
   const location = useLocation();
   const groupId = location.state.groupId;
   const [Loading, setLoading] = useState(true);
+  const [showSubGroups, setShowSubGroups] = useState();
 
   useEffect(() => {
 
@@ -31,6 +32,7 @@ export default function ShowGroups() {
         console.log(json);
         setLoading(false);
         setGroup(json);
+        setShowSubGroups(json);
       } else {
         console.error(json);
       }
@@ -40,65 +42,89 @@ export default function ShowGroups() {
 
   }, [token])
 
+  function handleSearch(event) {
+    const input = event.target.value;
+    const students = group.students.filter(item => {
+      const objKeys = Object.keys(item);
+      return objKeys.some(data => item[data].toLowerCase().includes(input.toLowerCase()));
+    }
+    );
+    setShowSubGroups((group) => ({ ...group, students }))
+  }
+
+  function handleChange(event) {
+    const input = event.target.value.toLowerCase();
+    console.log(input);
+
+    const students = group.students.sort((item1, item2) => (item1[input].toLowerCase()) - (item2[input].toLowerCase()));
+
+    const showStudents = showSubGroups.students.sort((item1, item2) => (item1[input].toLowerCase()) - (item2[input].toLowerCase()));
+
+    console.log(students);
+    console.log(showStudents);
+
+    setGroup((prev) => ({ ...prev, students }));
+    setShowSubGroups(prev => ({ ...prev, students: showStudents }));
+
+  }
+
   return (
     !Loading ? (
       <div className="flex flex-col px-10 py-6 items-center w-[80vw]">
         <div className="text-2xl font-semibold">
           Sub Group : {group.name}
         </div>
+
         <div className="bg-lighterbl text-white rounded py-2 w-[70vw]">
 
-          <div className="px-6 h-15 flex items-center justify-between py-4">
+          <div className="px-6 h-15 flex items-center justify-between py-4 ">
 
-            <input type="text" className="bg-lighterbl text-lg border-2 border-slate-600  px-2 focus-visible:outline-0 rounded py-1" placeholder="Search Students" />
+            <input type="text" onChange={handleSearch} className="bg-lighterbl text-lg border-2 border-slate-600  px-2 focus-visible:outline-0 rounded py-1" placeholder="Search Students" />
 
             <div className="flex gap-6 ">
-              <select name="" id="" className="bg-lighterbl text-lg border-2 border-slate-600  px-2 w-[10vw] focus-visible:outline-0 rounded py-1">
+              <select placeholder="Sort By" name="" id="" onChange={handleChange} className="bg-lighterbl text-lg border-2 border-slate-600  px-2 w-[10vw] focus-visible:outline-0 rounded py-1">
                 <option value="name" className="py-2">Name</option>
-                <option value="rollno">Roll No</option>
-                <option value="marks">Marks</option>
+                <option value="roll_no">Roll No</option>
+                {/* <option value="marks">Marks</option> */}
               </select>
 
-              <AddStudent />
-              </div>
+              <AddStudent setShowSubGroups={setShowSubGroups} setGroup={setGroup} subgroupId={groupId} />
+            </div>
           </div>
           <div className="text-lg py-2 bg-darkbl px-6 flex items-center">
 
-            <div className="w-10">
+            <div className="min-w-10">
               #
             </div>
 
-            <div className="w-60">
+            <div className=" min-w-60 max-w-60 overflow-hidden  ">
               NAME
             </div>
 
-            <div className="w-60">
+            <div className=" min-w-60 max-w-60 overflow-hidden  ">
               ROLL NO
             </div>
 
-            <div className="w-40">
+            <div className=" min-w-40 max-w-40 overflow-hidden  ">
               OS
             </div>
 
-            <div className="w-40">
+            <div className=" min-w-40 max-w-40 overflow-hidden  ">
               CP
             </div>
 
-            <div className="w-40">
+            <div className=" min-w-40 max-w-40 overflow-hidden  ">
               ELEC
             </div>
 
-            <div className="w-40">
+            <div className=" min-w-40 max-w-40 overflow-hidden  ">
               CN
             </div>
 
-            <div className="w-40">
-              ACTIONS
-            </div>
 
           </div>
           <div className="flex flex-col text-lg">
-            {group.students.map((item, index) => (
+            {showSubGroups.students.map((item, index) => (
               <Student item={item} key={item.name} index={index + 1} />
             ))}
           </div>
@@ -121,39 +147,37 @@ function Student({ item, index }) {
 
   console.log(item);
   return (
-    // <div className="border-b-2 gap-4 flex border-slate-500  px-4 py-2 w-full">
 
-    <div className="text-lg py-2 px-6 border-b-2 border-slate-600 bg-lighterbl bg-darkbl flex items-center">
+    <div className="text-lg py-2 px-6 border-b-2 border-slate-600 bg-lighterbl flex items-center">
 
-      <div className="w-10">
+      <div className="min-w-10 max-w-10 overflow-hidden">
         {index}
       </div>
 
-      <div className="w-60">
+      <div className=" min-w-60 max-w-60 overflow-hidden">
         {item.name}
       </div>
 
-      <div className="w-60">
-        {item.rollno}
+      <div className=" min-w-60 max-w-60 overflow-hidden    ">
+        {item.roll_no}
       </div>
 
-      <div className="w-40">
+      <div className="  min-w-40 max-w-40 overflow-hidden">
         {item.os_marks}
       </div>
 
-      <div className="w-40">
+      <div className=" min-w-40 max-w-40 overflow-hidden  ">
         {item.cp_marks}
       </div>
 
-      <div className="w-40">
+      <div className="min-w-40 max-w-40 overflow-hidden  ">
         {item.elec_marks}
       </div>
 
-      <div className="w-40">
+      <div className=" min-w-40 max-w-40 overflow-hidden  ">
         {item.cn_marks}
       </div>
 
-      {/* </div> */}
     </div>
   )
 }

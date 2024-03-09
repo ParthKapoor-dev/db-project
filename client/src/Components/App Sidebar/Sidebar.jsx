@@ -7,7 +7,7 @@ export default function SideBar({ }) {
   const { user } = useUserContext();
 
   return (
-    <div className="flex flex-col bg-xdarkbl w-[20vw] text-lg text-white h-[100vh] px-8 py-6">
+    <div className="flex fixed flex-col bg-xdarkbl box-border w-[20vw] text-lg text-white h-[100vh] px-8 py-6">
       <div className="mb-6 text-2xl font-semibold">
         ECE Webkiosk
       </div>

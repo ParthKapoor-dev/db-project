@@ -6,7 +6,7 @@ async function AddSubgroup(req, resp) {
     try {
 
         if (!subgroupName)
-        throw Error("Invalid SubGroup Name");
+            throw Error("Invalid SubGroup Name");
 
         const subgroup = await subgroupModel.create({
             name: subgroupName,
@@ -26,18 +26,21 @@ async function AddSubgroup(req, resp) {
     catch (err) {
         console.log(err);
         resp.status(404).json({
-            error : err.message
+            error: err.message
         })
     }
 }
 
 async function AddStudent(req, resp) {
     const { subgroupId, studentDetails } = req.body;
-    const { name, email, rollNo , os_marks , cp_marks , elec_marks } = req.body;
+    const { name, email, roll_no, os_marks, cp_marks, elec_marks } = studentDetails;
+    console.log(studentDetails);
+    console.log((subgroupId))
     try {
-        if (!(name && email && rollNo && os_marks && cp_marks && elec_marks))
+        if (!(name && email && roll_no))
             throw Error("All Fields are required");
         const subgroup = await subgroupModel.findOne({ _id: subgroupId });
+        console.log(subgroup);
         subgroup.students.push(studentDetails);
         await subgroup.save();
 
@@ -45,7 +48,7 @@ async function AddStudent(req, resp) {
     }
     catch (err) {
         console.log(err);
-        resp.status(404).json(err)
+        resp.status(404).json({ message: err.message })
     }
 }
 async function FetchSubgrp(req, resp) {
